@@ -1,0 +1,111 @@
+// LaboratÃ³rio de Estrutura de Dados 1
+// FlÃ¡vio Kenzo Nishiyama - 32031890
+// Guilherme da Costa Sampaio Pinto - 32011059
+// Nicolas Kanamaru de Oliveira - 32050631
+
+#include <cstdlib>
+#include <iostream>
+#include "ListaLigada.h"
+#include "Celula.h"
+using namespace std;
+
+int main() {
+
+	ListaLigada listaA;
+  ListaLigada listaB;
+  ListaLigada listaC;
+
+	while (true) {
+
+		cout << "\n ***** EXERCICIO 3 Lab Lista Encadeada *****";
+		cout << "\n0 - Sair";
+		cout << "\n1 - Inserir um novo no' em A";
+    cout << "\n2 - Inserir um novo no' em B";
+		cout << "\n3 - Inserir um novo no' na posicao 'n' em A";
+    cout << "\n4 - Inserir um novo no' na posicao 'n' em B";
+		cout << "\n5 - Informar o total de elementos na lista A";
+    cout << "\n6 - Informar o total de elementos na lista B";
+		cout << "\n7 - Fazer a Pertinencia entre a lista A com B";
+    cout << "\n8 - Fazer a Uniao entre as listas A e B";
+    cout << "\n9 - Fazer a Interseccao entre as listas A e B";
+    cout << "\n10 - Fazer a Diferenca entre a lista A com B";
+    cout << "\n11 - Imprimir todas as listas";
+    cout << "\n********************************************";
+		cout << "\n\nInforme sua opcao: ";
+		int opc;
+		cin >> opc;
+
+		if (opc == 0) {
+			break;
+		} else if (opc == 1) {
+			int opc1;
+			cout << "Valor do elemento (int): ";
+			cin >> opc1;
+			listaA.insereFinal(opc1);
+		} else if (opc == 2) {
+      int opc11;
+      cout << "Valor do elemento (int): ";
+      cin >> opc11;
+      listaB.insereFinal(opc11);
+    } else if(opc == 3) {
+			int opc3a;
+			int opc3b;
+			cout << "\nValor do elemento (int): ";
+			cin >> opc3a;
+			cout << "Posicao a ser inserido em A: ";
+			cin >> opc3b;
+			Celula * c = new Celula(opc3a);
+			cout << listaA.insereEmN(c, opc3b);
+    } else if (opc == 4) {
+      int opc4a;
+      int opc4b;
+      cout << "\nValor do elemento (int): ";
+      cin >>  opc4a;
+      cout << "Posicao a ser inserido em B: ";
+      cin >> opc4b;
+      Celula * c = new Celula(opc4a);
+      cout << listaB.insereEmN(c, opc4b);
+    } else if (opc == 5) {
+			cout << "\nTamanho da lista = " << listaA.tamanho() << " elemento(s)\n";
+    } else if (opc == 6) {
+			cout << "\nTamanho da lista = " << listaB.tamanho() << " elemento(s)\n";
+    } else if (opc == 7) {
+      bool res = listaC.Pertinencia(listaA, listaB);
+      if (res != false )
+      cout << "\nA esta contido em B";
+      else
+      cout << "\nA nao esta contido em B";
+      cout <<"\n"; 
+    } else if (opc == 8) {
+      cout << "Lista A: ";
+      listaA.imprime();
+      cout << "Lista B: ";
+      listaB.imprime();
+      listaC = listaC.Uniao(listaA, listaB);
+      cout << "Uniao entre as listas A e B: ";
+      listaC.imprime();
+    } else if (opc == 9) {
+      cout << "Lista A: ";
+      listaA.imprime();
+      cout << "Lista B: ";
+      listaB.imprime();
+      listaC = listaC.Interseccao(listaA, listaB);
+      cout << "Interseccao entre as listas A e B: ";
+      listaC.imprime();
+    } else if (opc == 10) {
+      cout << "Lista A: ";
+      listaA.imprime();
+      cout << "Lista B: ";
+      listaB.imprime();
+      listaC = listaC.Diferenca(listaA, listaB);
+      cout << "Diferenca entre as listas A e B: ";
+      listaC.imprime();
+    } else if (opc == 11) {
+			cout << "\n\nImpressao dos elemento da lista A -> ";
+			listaA.imprime();
+      cout << "\nImpressao dos elemento da lista B -> ";
+      listaB.imprime();
+    }
+	}
+	return 0;
+}
