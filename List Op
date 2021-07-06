@@ -1,0 +1,215 @@
+#include <cstdlib>
+#include <iostream>
+#include <sstream>
+#include "Celula.h"
+#include "ListaLigada.h"
+
+using namespace std;
+
+ListaLigada::ListaLigada() {
+	prim = NULL;
+	qtdCelulas = 0;
+}
+
+bool ListaLigada::vazia() {
+	return prim == NULL;
+}
+
+int ListaLigada::tamanho() {
+	return this->qtdCelulas;
+}
+
+void ListaLigada::insereInicio(int i) {
+	Celula * c = new Celula(i);
+	c->setProx(prim);
+	prim = c;
+	qtdCelulas++;
+}
+
+void ListaLigada::insereFinal(int i) {
+
+  if (vazia() == true) {
+    Celula * c = new Celula(i);
+    c->setProx(prim);
+    ult = c;
+    prim = c;
+    qtdCelulas++;
+  }
+  else {
+    Celula * c = new Celula(i);
+    c->setProx(NULL);
+    ult->setProx(c);
+    ult = c;
+    qtdCelulas++;
+  }
+}
+
+string ListaLigada::insereEmN(Celula * c, int pos) {
+
+	stringstream ss;
+
+	while (true) {
+
+		if (pos < 1) {
+			ss << "A posicao deve ser maior ou igual a 1";
+			break;
+		}
+
+		if (pos > qtdCelulas + 1) {
+			ss << "Nao existe esta posicao. A fila esta' com " << qtdCelulas << " elemento(s)";
+			break;
+		}
+
+		if (pos == 1) {
+			insereInicio(c->getInfo()); // o metodo insereInicio ja' estava implementado; aqui foi feita uma adaptacao.
+			ss << "Inserido no inicio";
+			break;
+		}
+
+		Celula * cursor = this->prim;
+		for (int i = 1; i < pos - 1; i++) {
+			cursor = cursor->getProx();
+		}
+
+		c->setProx(cursor->getProx());
+		cursor->setProx(c);
+		
+		qtdCelulas++;
+
+		ss << "Inserido na posicao " << pos;
+
+		break;
+
+	}
+
+	return ss.str();
+}
+
+
+void ListaLigada::imprime() {
+	Celula * cursor = prim;
+	cout << "[ ";
+	while (cursor != NULL) {
+		cout << cursor->getInfo() << " ";
+		cursor = cursor->getProx();
+	}
+	cout << "]\n";
+}
+
+// PertinÃªncia
+bool ListaLigada::Pertinencia(ListaLigada listaA, ListaLigada listaB) {
+  ListaLigada res;
+  res = res.Diferenca(listaA, listaB);
+  if (res.vazia()) 
+  {
+    return true;
+  }
+  else 
+  {
+    return false;
+  }
+}
+
+  
+// IntersecÃ§Ã£o
+ListaLigada ListaLigada::Interseccao(ListaLigada listaA, ListaLigada listaB)
+{
+
+  ListaLigada res;
+
+  Celula * auxA = listaA.prim;
+  Celula * auxB = listaB.prim;
+
+  while (auxA != NULL)
+  {
+    auxB = listaB.prim;
+    while (auxB != NULL)
+    {
+      if(auxA->getInfo() == auxB->getInfo())
+      {
+        res.insereFinal(auxA->getInfo());
+      }
+      
+      auxB = auxB->getProx();
+    }
+    auxA = auxA->getProx();
+  }
+  return res;
+}
+
+// UniÃ£o
+ListaLigada ListaLigada::Uniao(ListaLigada listaA, ListaLigada listaB)
+{
+  int k;
+
+  ListaLigada res;
+
+  Celula * auxA = listaA.prim;
+  Celula * auxB = listaB.prim;
+
+  
+  while (auxA!=NULL)
+  {
+    res.insereFinal(auxA->getInfo());
+    auxA = auxA->getProx();
+  }
+
+  auxA = listaA.prim;
+
+  Celula * auxRes = res.prim;
+
+  while (auxB!=NULL)
+  {
+    k = 0;
+    auxRes = res.prim;
+    while (auxRes!=NULL)
+    {
+      if(auxB->getInfo() != auxRes->getInfo()) {
+        ++k;
+      }
+
+      if(k == res.tamanho()) {
+        res.insereFinal(auxB->getInfo());
+      }
+      
+      auxRes = auxRes->getProx();
+    }
+    auxB = auxB->getProx();
+  }
+  return res;
+}
+
+
+// DiferenÃ§a
+ListaLigada ListaLigada::Diferenca(ListaLigada listaA, ListaLigada listaB)
+{
+  int k;
+  
+  ListaLigada res;
+  
+  Celula * auxA = listaA.prim;
+  Celula * auxB = listaB.prim;
+  
+  while (auxA != NULL)
+  {
+    k = 0;
+    auxB = listaB.prim;
+    while (auxB != NULL)
+    {
+      if(auxA->getInfo() != auxB->getInfo())
+      {
+        k++;
+      }
+      
+      if(k == listaB.tamanho())
+      {
+        res.insereFinal(auxA->getInfo());
+      }
+
+      auxB = auxB->getProx();
+    }
+    auxA = auxA->getProx();
+  }
+
+  return res;
+}
