@@ -1,0 +1,30 @@
+#include <iostream>
+#include <string.h>
+#include "Celula.h"
+
+using namespace std;
+
+class ListaLigada {
+	
+	//= privado
+	private:
+	Celula * prim;
+  Celula * ult;
+	int qtdCelulas;
+	
+	//= publico
+	public:
+	ListaLigada();
+	bool vazia();
+	int tamanho();
+	void insereInicio(int i);
+	string insereEmN(Celula * c, int pos);
+  void insereFinal(int i);
+	void imprime();
+  bool Pertinencia(ListaLigada A, ListaLigada B);
+  ListaLigada Interseccao(ListaLigada A, ListaLigada B);
+  ListaLigada Uniao(ListaLigada A, ListaLigada B);
+  ListaLigada Diferenca(ListaLigada A, ListaLigada B);
+	// ... outros mï¿½todos ...
+	
+};
